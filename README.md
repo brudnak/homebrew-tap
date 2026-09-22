@@ -11,10 +11,17 @@ real DMG URL and SHA-256 checksum. An empty tap cannot install the app.
 Once the Cask is published:
 
 ```bash
+brew tap hashicorp/tap
+brew trust --formula hashicorp/tap/terraform
 brew install --cask brudnak/tap/rancher-runway
 ```
 
-Homebrew adds this tap automatically. The Cask installs the universal macOS
+The first two commands add HashiCorp's tap and trust its Terraform formula.
+Homebrew requires explicit trust for this dependency; installing Rancher
+Runway does not grant trust to Terraform automatically. See
+[Homebrew's tap trust instructions](https://docs.brew.sh/Tap-Trust).
+
+Homebrew adds the Rancher Runway tap automatically. The Cask installs the universal macOS
 app and its Terraform, Helm 3, kubectl, and GitHub CLI (`gh`) dependencies.
 
 For GitHub features such as Issue Radar, authenticate once in Terminal:
