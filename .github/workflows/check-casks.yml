@@ -1,0 +1,45 @@
+name: Check Casks
+
+on:
+  push:
+    paths:
+      - "Casks/**"
+      - "scripts/**"
+      - ".github/workflows/check-casks.yml"
+  pull_request:
+    paths:
+      - "Casks/**"
+      - "scripts/**"
+      - ".github/workflows/check-casks.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Check helper and Cask syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n scripts/update-cask.sh
+          shopt -s nullglob
+          casks=(Casks/*.rb)
+          if [[ ${#casks[@]} -eq 0 ]]; then
+            echo "::notice::No Casks published yet. Import the first stable release to enable installation."
+            exit 0
+          fi
+          for cask in "${casks[@]}"; do
+            ruby -c "$cask"
+            ruby - "$cask" <<'RUBY'
+          text = File.read(ARGV.fetch(0))
+          abort "Unrendered Cask template" if text.match?(/@[A-Z_]+@/)
+          abort "Cask must pin a SHA-256 checksum" unless text.match?(/^[ \t]*sha256 "[0-9a-f]{64}"[ \t]*$/)
+          RUBY
+          done
