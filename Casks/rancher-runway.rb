@@ -1,8 +1,8 @@
 cask "rancher-runway" do
-  version "1.3.2"
-  sha256 "1d6d6f8aee5d01cac1390117ac951b4d99e634fa64c0492110c9a17b408ea4c4"
+  version "1.3.3"
+  sha256 "7c57412dee97f6724ba68ee7bde57b25401bc69831b2cec5c9591a33a6e6af8d"
 
-  url "https://github.com/brudnak/rancher-runway/releases/download/v1.3.2/Rancher-Runway-1.3.2-macOS-universal.dmg"
+  url "https://github.com/brudnak/rancher-runway/releases/download/v1.3.3/Rancher-Runway-1.3.3-macOS-universal.dmg"
   name "Rancher Runway"
   desc "Provision and validate disposable Rancher environments"
   homepage "https://github.com/brudnak/rancher-runway"
